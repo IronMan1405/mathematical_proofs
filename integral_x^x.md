@@ -4,44 +4,42 @@ $$
 \\
 \begin{align*}
     \\ \text{Since,} \quad
-    e^x &= \sum_{n=0}^{\infty} \, \frac{x^n}{n!}\\
-        &= 1 + \frac{x}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots \\
+    e^x &= \sum_{n=0}^{\infty} \, \frac{x^n}{n!}
+    = 1 + \frac{x}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots \\
 
-    \implies e^{x\ln x} &= 1 + \frac{(x\,\ln x)}{1!} + \frac{(x\,\ln x)^2}{2!} + \frac{(x\ln x)^3}{3!} + \cdots \\
+    \\\implies e^{x\ln x} &= 1 + \frac{(x\,\ln x)}{1!} + \frac{(x\,\ln x)^2}{2!} + \frac{(x\ln x)^3}{3!} + \cdots \\
     &= \sum_{n=0}^{\infty} \, \frac{(x\,\ln x)^n}{n!}\\
 \end{align*}
 
 \\
 
 \begin{align*}
-    \\ \text{Therefore, }  \\
+    \\ \text{Therefore, } & \\
     &\int_{0}^{1} e^{x\,\ln x} \, dx \, 
-    = \, \int_{0}^{1}\, \left(\sum_{n=0}^{\infty} \, \frac{(x\,\ln x)^n}{n!} \right) \,dx \,\,\,
-    = &\sum_{n=0}^{\infty} \frac{1}{n!} \, \int_{0}^{1} x^n(\ln x)^n \,dx
+    = \, \int_{0}^{1}\, \left(\, \sum_{n=0}^{\infty} \, \frac{(x\,\ln x)^n}{n!} \,dx \right)
+    = \sum_{n=0}^{\infty} \left[\, \frac{1}{n!} \, \int_{0}^{1} x^n(\ln x)^n \,dx \, \right] \\
 
-
-    \\\text{Let, } \,\, &\ln x = u \implies x = e^u \\
-    \implies \, &\frac{1}{x} \,dx = du
-
-    &\begin{align*}
-        &x \to 0 \implies u \to \infty \\
-        &x \to 1 \implies u \to 0
-    \end{align*}
+    \\ & \begin{array}{r | l}
+        \text{Let, } \,\, \ln x = u \implies x = e^u \qquad
+        & \qquad x \to 0 \implies u \to \infty\\
+        \\\implies \, \dfrac{1}{x} \,dx = du \qquad
+        & \qquad x \to 1 \implies u \to 0
+    \end{array}
 \end{align*}
 
 \\
 
 \begin{align*}
-    &\begin{align*}
+    &\begin{aligned}
         \\\text{Now, }& \\ 
-        &\sum_{n=0}^{\infty} \frac{1}{n!} \, \int_{\infty}^{0} \, (e^u)^{n+1} \,u^n \,du\,
-    \end{align*}
+        &\sum_{n=0}^{\infty} \left[ \, \frac{1}{n!} \, \int_{\infty}^{0} \, (e^u)^{n+1} \,u^n \, du \, \right]
+    \end{aligned}
 
-    \\&
-    \begin{align*}
+    \\
+    &\begin{aligned}
     \text{Let, } \, u = -t &\\ 
-    &\sum_{n=0}^{\infty} \frac{1}{n!} \, \int_{0}^{\infty} \, e^{-(n+1)t}\, t^n \,dt\, \\
-    \end{align*}
+    &\sum_{n=0}^{\infty} \left[\, \frac{1}{n!} \, \int_{0}^{\infty} e^{-(n+1)t}\, t^n \,dt\, \right] \\
+    \end{aligned}
 
 \end{align*}
 
@@ -49,20 +47,19 @@ $$
 
 \begin{align*}
     \text{We know, }& \\
-    &\Gamma (n) = \int_{0}^{\infty}e^{-t}\,t^{n-1}\,dt = (n-1)! \\
-    \implies &\Gamma (n+1) = \int_{0}^{\infty}e^{-t}\,t^{n}\,dt = n!
+    &\Gamma (n+1) = \int_{0}^{\infty}e^{-t}\,t^{n}\,dt = n!
 \end{align*}
 
 \\
 
 \begin{align*}
-    \\ &\text{From our obtained integral, } \quad
-    \sum_{n=0}^{\infty} \frac{1}{n!} \, \int_{0}^{\infty} \, e^{-(n+1)t}\, t^n \,dt\, \\
+    \\ &\text{In our obtained integral, } \quad
+    \sum_{n=0}^{\infty} \left[\, \frac{1}{n!} \, \int_{0}^{\infty} \, e^{-(n+1)t}\, t^n \,dt\, \right] \\
 
     \\&\text{Let, } \, s = (n+1) \, t \implies ds = (n+1)\,dt\\
 
-    \\&\implies \sum_{n=0}^{\infty} \frac{1}{(n+1)^{n+1} \, n!} \, \int_{0}^{\infty} \, e^{-s}\, s^n \,ds\, \\
-    \\&\implies \sum_{n=0}^{\infty} \, \frac{\Gamma (n+1)}{(n+1)^{n+1} \, n!} \\
+    \\&\implies \sum_{n=0}^{\infty} \left[\, \frac{1}{(n+1)^{n+1} \, n!} \, \int_{0}^{\infty} \, e^{-s}\, s^n \,ds\, \right] \\
+    \\&\implies \sum_{n=0}^{\infty} \, \frac{\Gamma (n+1)}{(n+1)^{n+1} \,\,n!} \\
     \\&\implies \sum_{n=0}^{\infty} \, \frac{1}{(n+1)^{n+1}} \\
 \end{align*}
 
