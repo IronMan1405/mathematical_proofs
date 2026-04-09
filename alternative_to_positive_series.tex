@@ -1,0 +1,72 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+\geometry{margin=2cm}
+
+\begin{document}
+For all $a > 1$,
+\[
+\sum_{k=1}^{\infty}\dfrac{(-1)^{k+1}}{a^{2k}-1} = \sum_{k=1}^{\infty}\dfrac{1}{a^{2k}+1}
+\]
+
+\begin{align}
+    \text{Consider, } \nonumber &\\ 
+    & \sum_{k=1}^{\infty}\dfrac{1}{a^{2k}+1} = \dfrac{1}{1+a^2} + \dfrac{1}{1+a^4} + \dfrac{1}{1+a^6} + \cdots \\
+    & \sum_{k=1}^{\infty}\dfrac{1}{a^{2k+1}+1} = \dfrac{1}{1+a^3} + \dfrac{1}{1+a^5} + \dfrac{1}{1+a^7} + \cdots
+\end{align}
+
+\begin{align}
+    \text{Now we have, } \nonumber & \\
+    & \sum_{k=1}^{\infty}\dfrac{1}{a^{k}+1} = \dfrac{1}{a+1} + \sum_{k=1}^{\infty} \left(\dfrac{1}{a^{2k}+1} + \dfrac{1}{a^{2k+1}+1}\right)
+\end{align}
+
+\begin{align}
+    \text{Similarly, } \nonumber & \\
+    & \sum_{k=1}^{\infty}\dfrac{1}{1-a^{2k}} = \dfrac{1}{1-a^2} + \dfrac{1}{1-a^4} + \dfrac{1}{1-a^6} + \cdots \\
+    & \sum_{k=1}^{\infty}\dfrac{1}{1-a^{2k+1}} = \dfrac{1}{1-a^3} + \dfrac{1}{1-a^5} + \dfrac{1}{1-a^7} + \cdots \\
+    & \sum_{k=1}^{\infty}\dfrac{1}{1-a^{k}} = \dfrac{1}{1-a} + \sum_{k=1}^{\infty} \left(\dfrac{1}{1-a^{2k}} + \dfrac{1}{1-a^{2k+1}}\right)
+\end{align}
+
+\begin{align*}
+    \text{Now, } \\
+    & (3) + (6) \\
+    &\implies \sum_{k=1}^{\infty} \left( \dfrac{1}{a^{k}+1} + \dfrac{1}{1-a^{k}} \right) \\&= \dfrac{1}{a+1} + \sum_{k=1}^{\infty} \left(\dfrac{1}{a^{2k}+1} + \dfrac{1}{a^{2k+1}+1}\right) + \dfrac{1}{1-a} + \sum_{k=1}^{\infty} \left(\dfrac{1}{1-a^{2k}} + \dfrac{1}{1-a^{2k+1}}\right) \\
+    & \implies \sum_{k=1}^{\infty} \dfrac{2}{1-a^{2k}} = 2 \left( \dfrac{1}{1-a^2} + \sum_{k=1}^{\infty} \left( \dfrac{1}{1-a^{4k}} + \dfrac{1}{1-a^{4k+2}} \right) \right) \\
+    & \implies \sum_{k=1}^{\infty} \dfrac{1}{1-a^{2k}} - \sum_{k=1}^{\infty} \dfrac{1}{1-a^{4k}} = \dfrac{1}{1-a^2} + \sum_{k=1}^{\infty} \dfrac{1}{1-a^{4k+2}} = \sum_{k=0}^{\infty} \dfrac{1}{1-a^{4k+2}}\\
+    & \implies \sum_{k=1}^{\infty} \dfrac{a^{2k}-a^{4k}}{(1-a^{2k})(1-a^{4k})} = \sum_{k=0}^{\infty} \dfrac{1}{1-a^{4k+2}} \\
+    & \implies \sum_{k=1}^{\infty} \dfrac{a^{2k}}{1-a^{4k}} = \sum_{k=0}^{\infty} \dfrac{1}{1-a^{4k+2}} \tag{7} \\
+\end{align*}
+
+\begin{align}
+    \text{Let } \nonumber &\\
+    & \sum_{k=0}^{\infty} \dfrac{1}{1-a^{4k+2}} = \dfrac{1}{1-a^2} + \dfrac{1}{1-a^6} + \dfrac{1}{1-a^{10}} + \cdots \\
+    & \sum_{k=1}^{\infty} \dfrac{1}{1-a^{4k}} = \dfrac{1}{1-a^4} + \dfrac{1}{1-a^8} + \dfrac{1}{1-a^2} + \cdots
+\end{align}
+
+\begin{align*}
+    \text{(7) - (8)} \implies \sum_{k=0}^{\infty} \dfrac{1}{1-a^{4k+2}} - \sum_{k=1}^{\infty} \dfrac{1}{1-a^{4k}} 
+    & = \sum_{k=1}^{\infty} \left( \dfrac{a^{2k}}{1-a^{4k}} - \dfrac{1}{1-a^{4k}} \right) \\
+    & = - \sum_{k=1}^{\infty} \dfrac{(1-a^{2k})}{(1-a^{4k})} \\
+    \implies \sum_{k=0}^{\infty} \dfrac{1}{1-a^{4k+2}} - \sum_{k=1}^{\infty} \dfrac{1}{1-a^{4k}} 
+    & = - \sum_{k=1}^{\infty} \dfrac{1}{1+a^{2k}} \tag{9}\\
+\end{align*}
+
+\begin{align*}
+    \text{Also, } 
+    \sum_{k=1}^{\infty} \dfrac{(-1)^{k+1}}{1-a^{2k}} &= \dfrac{1}{1-a^2} - \dfrac{1}{1-a^4} + \dfrac{1}{1-a^6} - \dfrac{1}{1-a^8} + \cdots \tag{10} \\
+    & = \left( \dfrac{1}{1-a^2} - \dfrac{1}{1-a^4} \right) + \left( \dfrac{1}{1-a^6} - \dfrac{1}{1-a^8} \right) + \cdots \\
+    & = \sum_{k=1}^{\infty} \left( \dfrac{1}{1-a^{4k-2}} - \dfrac{1}{1-a^{4k}} \right) \\
+    &\hspace{-77px}\therefore \, \sum_{k=1}^{\infty} \dfrac{(-1)^{k+1}}{1-a^{2k}} = \sum_{k=0}^{\infty}\dfrac{1}{1-a^{4k+2}} - \sum_{k=1}^{\infty}\dfrac{1}{1-a^{4k}} \tag{11} \\
+\end{align*}
+
+\begin{align*}
+    \text{Hence, From (9) and (11), } & \\
+    & \sum_{k=1}^{\infty} \dfrac{(-1)^{k+1}}{1-a^{2k}} = - \sum_{k=1}^{\infty} \dfrac{1}{1+a^{2k}} \\ \\
+    & \boxed{\sum_{k=1}^{\infty} \dfrac{(-1)^{k+1}}{a^{2k}-1} = \sum_{k=1}^{\infty} \dfrac{1}{1+a^{2k}}}
+\end{align*}
+
+\end{document}
