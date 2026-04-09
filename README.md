@@ -14,7 +14,7 @@ A collection of proofs and derivations written by me in LaTeX.
 <!-- List your proofs here, e.g.: -->
 - Integrals from the family of Sophomore's Dream
 - Products and Sums involving trigonometric, hyperbolic, algebraic functions
-- Series involving Gamma ($\Gamma$), Polygamma ($\psi$), Riemann-Zeta ($\zeta$) functions and the harmonic series. 
+- Series involving the use of Gamma ($\Gamma$), Polygamma ($\psi$), Riemann-Zeta ($\zeta$) functions and the harmonic series. 
 
 ## Building
 
