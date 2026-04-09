@@ -1,0 +1,194 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{bm}
+
+\geometry{margin=2cm}
+\setlength{\jot}{10pt}
+
+\begin{document}
+
+\[
+    \int_{0}^{1} x^{x+1} \ln (1-x) dx
+\]
+
+\begin{align*}
+    \text{Since }
+    \ln (1-x) &= - \sum_{n=1}^{\infty} \frac{x^n}{n}
+    = - \frac{x}{1} - \frac{x^2}{2} - \frac{x^3}{3} - \cdots
+\end{align*}
+
+\text{Therefore,}
+
+\begin{align*}
+    \int_{0}^{1} x^{x+1} \ln (1-x) dx
+    &= \int_{0}^{1}\, x^{x+1} \left( - \sum_{n=1}^{\infty} \frac{x^n}{n} \right) dx
+    = - \sum_{n=1}^{\infty} \frac{1}{n} \int_{0}^{1} x^{n+1} x^x dx \\
+    &= - \sum_{n=1}^{\infty} \frac{1}{n} \int_{0}^{1} x^{n+1} e^{x \ln x} dx
+\end{align*}
+
+\text{Recall,}
+
+\begin{align*}
+    e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} 
+    = 1 + \frac{x}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+\end{align*}
+
+\begin{align*}
+    \implies - \sum_{n=1}^{\infty} \frac{1}{n} \int_{0}^{1} x^{n+1} e^{x \ln x} dx
+    &= - \sum_{n=1}^{\infty} \frac{1}{n} \sum_{m=0}^{\infty}  \frac{1}{m!} \int_{0}^{1} x^{m+n+1} \ln^m x dx \\
+    &= - \sum_{n=1}^{\infty} \sum_{m=0}^{\infty} \frac{1}{n \cdot m!} \int_{0}^{1} x^{m+n+1} \ln^m x dx
+\end{align*}
+
+\begin{align*}
+    \begin{array}{r | l}
+        \text{Let } \ln x = u \implies x = e^u \,
+        &\, x \to 0 \implies u \to - \infty\\
+        \\\implies \, \dfrac{1}{x} \, dx = du \,
+        &\, x \to 1 \implies u \to 0
+    \end{array}
+\end{align*}
+
+\begin{align*}
+    \therefore \int_{0}^{1} x^{m+n+1} \ln^m x \,dx
+    &= \int_{- \infty}^{0} e^{(m+n+2)u} u^{m} \, du \\
+    &= (-1)^m \int_{0}^{\infty} e^{-(m+n+2)u} u^{m} \, du
+\end{align*}
+
+\text{Let $(m+n+2)u = t$}
+\begin{align*}
+    (-1)^m \int_{0}^{\infty} e^{-(m+n+2)u} u^{m} \, du
+    &= \frac{(-1)^m}{(m+n+2)^{m+1}} \int_{0}^{\infty} e^{-t} t^{m} \, dt \\
+    &= \frac{(-1)^m \, \Gamma (m+1)}{(m+n+2)^{m+1}}\\
+\end{align*}
+
+\begin{align*}
+    \therefore - \sum_{n=1}^{\infty} \sum_{m=0}^{\infty} \frac{1}{n \cdot m!} \int_{0}^{1} x^{m+n+1} \ln^m x \,dx
+    &= - \sum_{n=1}^{\infty} \sum_{m=0}^{\infty} \frac{(-1)^m \, \Gamma (m+1)}{n \cdot (m+n+2)^{m+1} \cdot m!} \\
+    &= - \sum_{n=1}^{\infty} \sum_{m=0}^{\infty} \frac{(-1)^m}{n \cdot (m+n+2)^{m+1}} \\
+    &= - \sum_{m=0}^{\infty} (-1)^m \sum_{n=1}^{\infty} \frac{1}{n \cdot (m+n+2)^{m+1}}
+\end{align*}
+
+\noindent\textbf{Partial fraction decomposition of $\frac{1}{n \cdot (m+n+2)^{m+1}}$}
+\begin{align*}
+    \frac{1}{n \cdot (m+n+2)^{m+1}} = \frac{A}{n} + \sum_{i = 1}^{m+1} \frac{B_i}{(m+n+2)^i} \tag{1}
+\end{align*}
+
+\noindent\textbf{Multiply (1) by $n$ and set $n = 0$:}
+
+\begin{align*}
+    \frac{1}{(m+n+2)^{m+1}} = A + \sum_{i = 1}^{m+1} \frac{n B_i}{(m+n+2)^i} \\
+    A = \frac{1}{(m+2)^{m+1}} \tag{2}
+\end{align*}
+
+\noindent\textbf{Multiply (1) by $(m+n+2)^{m+1}$ and set $n = -m-2$:}
+
+\begin{align*}
+    \frac{1}{n} &= A \, \frac{(n+m+2)^{m+1}}{n} + \sum_{i = 1}^{m+1} \frac{B_i}{(m+n+2)^{i-m-1}}\\
+    \implies \frac{1}{n} &= A \, \frac{(n+m+2)^{m+1}}{n} + \sum_{i = 1}^{m} B_i(m+n+2)^{m+1-i} + B_{m+1}\\
+    B_{m+1} &= \frac{-1}{(m+2)} \tag{3}
+\end{align*}
+
+Similarly,
+\begin{align*}
+    \text{(1)} &\implies
+    \frac{1}{n \cdot (m+n+2)^{m+1}} - \frac{B_{m+1}}{(m+n+2)^{m+1}} = \frac{A}{n} + \sum_{i = 1}^{m} B_i(m+n+2)^{-i} \\
+    &\implies \frac{1}{n \cdot (m+2) \cdot (m+n+2)^{m}} = \frac{A}{n} + \sum_{i = 1}^{m} B_i(m+n+2)^{-i} \tag{4}
+\end{align*}
+
+\noindent\textbf{Multiply (4) by $(m+n+2)^{m}$ and set $n = -m-2$:}
+
+\begin{align*}
+    \frac{1}{n \cdot (m+2)} &= A \, \frac{(n+m+2)^{m}}{n} + \sum_{i = 1}^{m-1} B_i(m+n+2)^{m-i} + B_m \\
+    &B_{m}= \frac{-1}{(m+2)^2} \tag{5}
+\end{align*}
+
+And,
+
+\begin{align*}
+    \text{(1)} \implies 
+    & \frac{1}{n \cdot (m+n+2)^{m+1}} - \frac{B_{m+1}}{(m+n+2)^{m+1}} - \frac{B_{m}}{(m+n+2)^{m}} = \frac{A}{n} + \sum_{i = 1}^{m-1} B_i(m+n+2)^{-i} \\
+    \implies & \frac{1}{n \cdot (m+2)^2 \cdot (m+n+2)^{m-1}} = \frac{A}{n} + \sum_{i = 1}^{m-1} B_i(m+n+2)^{-i} \tag{6}
+\end{align*}
+
+\noindent\textbf{Multiply (6) by $(m+n+2)^{m-1}$ and set $n = -m-2$:}
+
+\begin{align*}
+    \frac{1}{n \cdot (m+2)} &= A \, \frac{(n+m+2)^{m-1}}{n} + \sum_{i = 1}^{m-1} B_i(m+n+2)^{m-1-i} + B_{m-1} \\
+    &B_{m-1}= \frac{-1}{(m+2)^3} \tag{7}
+\end{align*}
+
+Hence, from (3), (5) and (7) we can see that,
+
+\begin{align*}
+    B_i = \frac{-1}{(m+2)^{m+2-i}} \tag{8}
+\end{align*}
+
+Therefore from (1),
+
+\begin{align*}
+    \frac{1}{n \cdot (m+n+2)^{m+1}} = \frac{1}{n \cdot (m+2)^{m+1}} - \sum_{i = 1}^{m+1} \frac{1}{(m+n+2)^i \cdot (m+2)^{m+2-i}} \tag{9}
+\end{align*}
+
+We know that,
+
+\begin{align*}
+    & \zeta (s) = \sum_{k=1}^{\infty} \frac{1}{k^s} \quad , \quad \mathrm{H_n} = \sum_{k=1}^{n} \frac{1}{k} \quad , \quad \mathrm{H_{n,q}} = \sum_{k=1}^{n} \frac{1}{k^q}
+\end{align*}
+
+Substituting (9) into our double sum,
+
+\begin{align*}
+    \sum_{m=0}^{\infty} (-1)^m \sum_{n=1}^{\infty} \frac{1}{n (m+n+2)^{m+1}}
+    &= \sum_{m=0}^{\infty} (-1)^m \sum_{n=1}^{\infty}
+    \left[
+        \frac{1}{n (m+2)^{m+1}}
+        - \sum_{i = 1}^{m+1}
+        \frac{1}{(m+n+2)^i (m+2)^{m+2-i}}
+    \right] \\[6pt]
+    &= \sum_{m=0}^{\infty} (-1)^m \sum_{n=1}^{\infty}
+    \left[
+        \frac{1}{n (m+2)^{m+1}}
+        - \frac{1}{(m+n+2)(m+2)^{m+1}}
+    \right. \\
+    &\hspace{4cm}\left.
+        - \sum_{i = 2}^{m+1}
+        \frac{1}{(m+n+2)^i (m+2)^{m+2-i}}
+    \right] \\[6pt]
+    &= \sum_{m=0}^{\infty} (-1)^m
+    \Bigg[
+        \frac{1}{(m+2)^{m+1}}
+        \sum_{n=1}^{\infty}
+        \left( \frac{1}{n} - \frac{1}{m+n+2} \right)
+    \\
+    &\hspace{2cm}
+        - \frac{1}{(m+2)^{m+2}}
+        \sum_{i = 2}^{m+1} (m+2)^i
+        \sum_{n=1}^{\infty}
+        \frac{1}{(m+n+2)^i}
+    \Bigg]
+\end{align*}
+
+\textbf{Note: }
+\begin{align*}
+    \sum_{n=1}^{\infty}\left(\frac{1}{n} - \frac{1}{n + (m+2)}\right)
+    &= \sum_{n=1}^{m+2} \frac{1}{n} = \mathrm{H_{m+2}}
+    \quad \text{(telescoping harmonic sum)} \\
+    \text{For } i \geq 2: \quad \sum_{n=1}^{\infty} \frac{1}{(m+n+2)^i}
+    &= \sum_{k=m+3}^{\infty} \frac{1}{k^i}
+    = \zeta(i) - H_{m+2,\,i}
+    \quad \text{(finite for } i \geq 2 \text{)}
+\end{align*}
+
+\begin{align*}
+    & \implies \sum_{m=0}^{\infty} (-1)^m \sum_{n=1}^{\infty} \left( \frac{\mathrm{H_{m+2}}}{(m+2)^{m+1}} - \frac{1}{(m+2)^{m+2}} \sum_{i = 2}^{m+1} (m+2)^i \left[\zeta(i) - H_{m+2,\,i} \right] \right)
+\end{align*}
+
+\text{Finally, }
+
+\begin{center}
+    \boxed{\displaystyle\int_{0}^{1} x^{x+1} \ln (1-x) \, dx = \sum_{m=0}^{\infty} (-1)^m \left[ \frac{\mathrm{H_{\,m+2}}}{(m+2)^{m+1}} - \sum_{i = 2}^{m+1} \frac{\zeta (i) - \mathrm{H_{m+2,i}}}{(m+2)^{m+2-i}} \right]}
+\end{center}
+
+\end{document}
