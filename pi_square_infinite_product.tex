@@ -1,0 +1,38 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{bm}
+
+\geometry{margin=2cm}
+\setlength{\jot}{10pt}
+
+\begin{document}
+\[
+    \pi^2 = \dfrac{9}{2} \, \prod_{s=1}^{\infty} \left[\dfrac{\zeta(2s)}{\zeta(2s+2)} \cdot \dfrac{2^{2s+2}-1}{2^{2s+2}-4}\right]
+\]
+
+\begin{align*}
+    \text{Considering the LHS, } \\
+    \dfrac{9}{2} \cdot \prod_{s=1}^{\infty} \left[ \dfrac{\zeta(2s)}{\zeta(2s+2)} \cdot \dfrac{2^{2s+2}-1}{2^{2s+2}-4} \right] &= 
+    \dfrac{9}{2} \cdot \prod_{s=1}^{\infty} \dfrac{\zeta(2s)}{\zeta(2s+2)} \cdot \prod_{s=1}^{\infty} \dfrac{2^{2s+2}-1}{2^{2s+2}-4} \tag{1} \\
+\end{align*}
+
+\begin{align*}
+    \text{We have, }
+    \prod_{s=1}^{\infty} \dfrac{\zeta(2s)}{\zeta(2s+2)} = \dfrac{\zeta(2)}{\zeta(4)} \cdot \dfrac{\zeta(4)}{\zeta(6)} \cdot \dfrac{\zeta(6)}{\zeta(8)} \cdots &= 
+    \zeta(2) = \dfrac{\pi^2}{6} \tag{2} \\
+    \text{And, }
+    \prod_{s=1}^{\infty} \dfrac{2^{2s+2}-1}{2^{2s+2}-4} = \prod_{s=1}^{\infty} \dfrac{1-2^{-(2s+2)}}{1-2^{-2s}} &=
+    \dfrac{1-2^{-4}}{1-2^{-2}} \cdot \dfrac{1-2^{-6}}{1-2^{-4}} \cdot \dfrac{1-2^{-8}}{1-2^{-6}} \cdots \\
+    \prod_{s=1}^{\infty} \dfrac{2^{2s+2}-1}{2^{2s+2}-4} &= \dfrac{1}{1-2^{-2}} = \dfrac{4}{3} \tag{3}
+\end{align*}
+
+\begin{align*}
+    \text{From (1), (2) and (3)} \\
+    \dfrac{9}{2} \cdot \prod_{s=1}^{\infty} \left[ \dfrac{\zeta(2s)}{\zeta(2s+2)} \cdot \dfrac{2^{2s+2}-1}{2^{2s+2}-4} \right] = 
+    \dfrac{9}{2} \cdot \dfrac{\pi^2}{6} \cdot \dfrac{4}{3} \\
+    \implies \boxed{\quad \dfrac{9}{2} \cdot \prod_{s=1}^{\infty} \left[ \dfrac{\zeta(2s)}{\zeta(2s+2)} \cdot \dfrac{2^{2s+2}-1}{2^{2s+2}-4} \right] = \pi^2 \quad}
+\end{align*}
+
+\end{document}
