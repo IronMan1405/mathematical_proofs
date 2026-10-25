@@ -5,6 +5,14 @@
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{microtype}
+\usepackage{url}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
 
 \title{A Digit-Avoidance Conjecture for Powers of Two}
 \author{}
@@ -25,48 +33,58 @@
 \newtheorem{question}[definition]{Open Question}
 
 \newcommand{\forbidden}{\mathcal{D}}
-\newcommand{\good}{\mathcal{A}}
+\newcommand{\period}{P_k}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-We investigate a digit-avoidance property of the powers of two in
-base ten. The number
+We investigate a digit-avoidance property of the powers of two
+in base ten. The number
 \[
 2^{16}=65536
 \]
-contains none of the decimal digits \(1,2,4,8\). We conjecture that
-it is the only nonnegative integral power of two with this property.
-Elementary modular arguments impose strong restrictions on any
-possible solution. We also formulate a residue-class counting problem
-for longer decimal suffixes and discuss computational evidence.
-The uniqueness assertion remains open in this note.
+contains none of the decimal digits \(1,2,4,8\). We conjecture
+that it is the only nonnegative integral power of two with this
+property.
+
+Elementary modular arguments impose necessary restrictions on
+any possible solution. We establish a periodicity result for
+decimal suffixes and describe a computational method for
+enumerating exponent residue classes that satisfy increasingly
+long suffix restrictions. Two complementary Python scripts
+provide a framework for searching individual powers and studying
+the associated residue classes.
+
+The uniqueness assertion remains open. Computational evidence
+over finite ranges and patterns in residue-class counts are not
+presented as proofs of the conjecture.
 \end{abstract}
 
 \section{Introduction}
 
-The decimal expansion of an integer can obscure properties that are
-immediate from its algebraic representation. For example,
+The decimal expansion of an integer can exhibit properties that
+are not immediately apparent from its algebraic representation.
+For example,
 \[
 2^{16}=65536
 \]
-is a power of two, yet its decimal digits are drawn entirely from
+is a power of two whose decimal digits belong entirely to
 \[
 \{0,3,5,6,7,9\}.
 \]
 In particular, none of the digits \(1,2,4,8\) occurs.
 
-This observation motivates the following question: is \(65536\) the
-only power of two whose decimal representation avoids all four of
-these digits?
+This observation motivates a simple question: is \(65536\) the
+only power of two whose decimal representation avoids all four
+of these digits?
 
-The question is elementary to state, but its resolution appears to
-require control over the decimal digits of powers of two over
-arbitrarily many positions. The results below establish necessary
-conditions on a solution and describe a modular framework for studying
-longer suffixes.
+Although the question is elementary to state, proving uniqueness
+requires controlling decimal digits over arbitrarily many positions.
+The elementary results below restrict the possible exponents.
+We then establish a modular framework for studying longer decimal
+suffixes and describe computational experiments motivated by it.
 
 \section{Definitions and Main Conjecture}
 
@@ -77,18 +95,11 @@ Let
 
 \begin{definition}
 For \(n\in\mathbb{Z}_{\geq 0}\), let \(P(n)\) denote the statement
-that the decimal representation of \(2^n\) contains no digit belonging
-to \(\forbidden\).
+that the standard decimal representation of \(2^n\) contains no
+digit belonging to \(\forbidden\).
 \end{definition}
 
-Equivalently, if \(d_j(2^n)\) denotes any decimal digit of \(2^n\),
-then \(P(n)\) holds precisely when
-\[
-d_j(2^n)\notin\forbidden
-\]
-for every digit position \(j\).
-
-The initial example is
+The conjectured example is
 \[
 2^{16}=65536,
 \]
@@ -97,17 +108,22 @@ so \(P(16)\) holds.
 \begin{conjecture}[Uniqueness conjecture]
 For every \(n\in\mathbb{Z}_{\geq 0}\),
 \[
-\boxed{P(n)\iff n=16.}
+P(n)\iff n=16.
 \]
 \end{conjecture}
 
 The case \(n=0\) is not a solution, since \(2^0=1\). The case
-\(n=16\) establishes existence. The remaining task is to prove that
-no other exponent satisfies \(P(n)\).
+\(n=16\) establishes existence. The remaining task is to prove
+that no other exponent satisfies \(P(n)\).
 
 \section{Restrictions from the Final Decimal Digit}
 
-The last decimal digit of \(2^n\), for \(n\geq 1\), is periodic:
+For \(n\geq 1\), the final decimal digit of \(2^n\) follows the
+periodic cycle
+\[
+2,\ 4,\ 8,\ 6.
+\]
+Equivalently,
 \[
 2^n\bmod 10 =
 \begin{cases}
@@ -118,8 +134,8 @@ The last decimal digit of \(2^n\), for \(n\geq 1\), is periodic:
 \end{cases}
 \]
 
-The digits \(2,4,8\) are forbidden. Therefore a solution with
-\(n\geq 1\) must end in the digit \(6\).
+Since \(2,4,8\) are forbidden, any positive solution must end
+in the digit \(6\).
 
 \begin{proposition}
 If \(n\geq 1\) and \(P(n)\) holds, then
@@ -129,37 +145,32 @@ n\equiv 0\pmod 4.
 \end{proposition}
 
 \begin{proof}
-The final digit of \(2^n\) must be \(6\), and the final-digit cycle
-shows that this occurs exactly when \(n\equiv0\pmod4\).
+The final digit of \(2^n\) must be \(6\). The final-digit cycle
+shows that this occurs precisely when \(n\equiv 0\pmod 4\).
 \end{proof}
 
-Consequently, every positive candidate exponent is a multiple of
-four. Writing \(n=4k\), we obtain
+Consequently, every positive candidate exponent is a multiple
+of four. Writing \(n=4m\), we obtain
 \[
-2^n=2^{4k}=16^k.
+2^n=2^{4m}=16^m.
 \]
 
-Thus the original conjecture reduces to the assertion that \(16^k\)
-contains a forbidden decimal digit for every positive integer
-\(k\ne4\).
+Thus the uniqueness conjecture is equivalent to the assertion
+that \(16^m\) contains a forbidden decimal digit for every positive
+integer \(m\neq 4\).
 
 \section{Restrictions from the Final Two Decimal Digits}
 
 The powers of \(16\) modulo \(100\) satisfy
 \[
-16^1\equiv16\pmod{100},
-\]
-\[
-16^2\equiv56\pmod{100},\qquad
-16^3\equiv96\pmod{100},
-\]
-\[
-16^4\equiv36\pmod{100},\qquad
-16^5\equiv76\pmod{100},
-\]
-and
-\[
-16^6\equiv16\pmod{100}.
+\begin{aligned}
+16^1&\equiv16\pmod{100},\\
+16^2&\equiv56\pmod{100},\\
+16^3&\equiv96\pmod{100},\\
+16^4&\equiv36\pmod{100},\\
+16^5&\equiv76\pmod{100},\\
+16^6&\equiv16\pmod{100}.
+\end{aligned}
 \]
 
 Hence the final two digits cycle through
@@ -168,199 +179,313 @@ Hence the final two digits cycle through
 \]
 with period five.
 
-The suffix \(16\) contains the forbidden digit \(1\). Therefore,
-if \(P(4k)\) holds, then \(k\not\equiv1\pmod5\).
+When \(m\equiv 1\pmod 5\), the final two digits of \(16^m\)
+are \(16\), which contains the forbidden digit \(1\). Therefore,
+a solution must satisfy \(m\not\equiv 1\pmod 5\).
 
 \begin{proposition}
-If \(n\geq1\) and \(P(n)\) holds, then
+If \(n\geq 1\) and \(P(n)\) holds, then
 \[
-n\equiv0,8,12,\text{ or }16\pmod{20}.
+n\equiv 0,8,12,\text{ or }16\pmod{20}.
 \]
 \end{proposition}
 
 \begin{proof}
-The first proposition gives \(n=4k\). Among the five possible
-residues of \(k\) modulo \(5\), the residue \(k\equiv1\pmod5\)
-produces the final two digits \(16\), which are forbidden.
-Consequently,
+The preceding proposition gives \(n=4m\). The final-two-digit
+cycle excludes \(m\equiv 1\pmod 5\), leaving
 \[
-k\equiv0,2,3,\text{ or }4\pmod5.
+m\equiv 0,2,3,\text{ or }4\pmod 5.
 \]
-Multiplying these congruences by four gives the stated result.
+Multiplying these congruences by four yields the result.
 \end{proof}
 
 \begin{remark}
-These restrictions are necessary, not sufficient. Avoiding forbidden
-digits in the final two positions does not imply that the remaining
-digits are also allowed.
+These restrictions are necessary, not sufficient. Avoiding
+forbidden digits in the final two positions does not imply that
+the other digits are also allowed.
 \end{remark}
 
-\section{A General Modular Framework}
+\section{Periodicity of Decimal Suffixes}
 
-To investigate longer suffixes, consider powers of two modulo powers
-of ten.
+We now consider the last \(k\) decimal digits of \(2^n\).
+For a positive integer \(k\), define
+\[
+P_k=4\cdot 5^{k-1}.
+\]
+
+We first establish the relevant multiplicative-order formula.
 
 \begin{lemma}
-For every integer \(k\geq1\),
+For every integer \(k\geq 1\),
 \[
-2^{4\cdot5^{k-1}}\equiv1\pmod{10^k}.
+\operatorname{ord}_{5^k}(2)=4\cdot 5^{k-1}.
 \]
 \end{lemma}
 
 \begin{proof}
-The exponent of the multiplicative group
-\({(\mathbb{Z}/10^k\mathbb{Z})}^\times\) is
-\[
-\lambda(10^k)=\operatorname{lcm}
-\bigl(\lambda(2^k),\lambda(5^k)\bigr)
-=4\cdot5^{k-1}
-\]
-for \(k\geq1\), where the expression also gives \(1\) for \(k=1\).
-Since \(2\) is not invertible modulo \(10^k\), this group argument
-cannot be applied directly to \(2\). Instead, write
-\[
-2^{4\cdot5^{k-1}}=16^{5^{k-1}}.
-\]
-The standard lifting congruence for powers of \(1+15\), or induction
-on \(k\), gives
-\[
-16^{5^{k-1}}\equiv1\pmod{5^k}.
-\]
-It is also congruent to \(0\pmod{2^k}\) only when \(k\) is bounded,
-so this argument does not establish the displayed congruence
-modulo \(10^k\).
+Since \(2\) has order \(4\) modulo \(5\), any exponent \(r\)
+satisfying \(2^r\equiv 1\pmod{5^k}\) must be divisible by
+four. Write \(r=4m\).
 
-Accordingly, the displayed statement is not used in the results
-of this note. The relevant periodicity for decimal suffixes is
-established below using the factorization of \(2^n\) and the
-multiplicative order of \(2\) modulo \(5^k\).
+For \(m\geq 1\), the standard lifting-the-exponent formula gives
+\[
+v_5(16^m-1)
+=
+v_5(16-1)+v_5(m)
+=
+1+v_5(m),
+\]
+where \(v_5(x)\) denotes the exponent of \(5\) in the prime
+factorization of \(x\).
+
+Since \(2^{4m}=16^m\), the congruence
+\[
+2^{4m}\equiv1\pmod{5^k}
+\]
+holds precisely when \(1+v_5(m)\geq k\), or equivalently
+when \(5^{k-1}\mid m\).
+
+The smallest positive such exponent is therefore
+\(4\cdot5^{k-1}\), as required.
+\end{proof}
+
+\begin{theorem}[Periodicity of the last \(k\) digits]
+For every \(k\geq1\) and every \(n\geq k\),
+\[
+2^{n+P_k}\equiv 2^n\pmod{10^k},
+\qquad P_k=4\cdot5^{k-1}.
+\]
+Consequently, the last \(k\) decimal digits of \(2^n\) depend
+only on \(n\bmod P_k\), once \(n\geq k\).
+\end{theorem}
+
+\begin{proof}
+Because \(n\geq k\),
+\[
+2^n\equiv 0\pmod{2^k}.
+\]
+The same is true of \(2^{n+P_k}\). Thus
+\[
+2^{n+P_k}\equiv 2^n\pmod{2^k}.
+\]
+
+By the lemma,
+\[
+2^{P_k}\equiv1\pmod{5^k}.
+\]
+Multiplying by \(2^n\) gives
+\[
+2^{n+P_k}\equiv2^n\pmod{5^k}.
+\]
+
+Since \(2^k\) and \(5^k\) are coprime, the Chinese remainder
+theorem yields
+\[
+2^{n+P_k}\equiv2^n\pmod{10^k}.
+\]
+Repeated application establishes the claimed dependence on
+the exponent modulo \(P_k\).
 \end{proof}
 
 \begin{remark}
-The preceding proof attempt deliberately illustrates a point requiring
-care: \(2\) is not a unit modulo \(10^k\), and periodicity modulo
-\(5^k\) does not automatically imply periodicity modulo \(10^k\).
-A valid suffix argument must account separately for the powers of
-\(2\) and \(5\) dividing the modulus. The exact period and exponent
-range must be stated with this distinction in mind.
+The integer \(2\) is not invertible modulo \(10^k\). The
+periodicity result therefore does not follow by treating \(2\)
+as an element of the multiplicative group modulo \(10^k\).
+Instead, the proof uses the vanishing of \(2^n\) modulo \(2^k\)
+for \(n\geq k\), together with the multiplicative order of
+\(2\) modulo \(5^k\).
 \end{remark}
 
-For \(n\geq k\), the last \(k\) decimal digits of \(2^n\) are
-represented by
+\begin{remark}
+The theorem establishes a period; it does not assert that
+\(P_k\) is the smallest possible period of the suffix sequence.
+When interpreting suffixes shorter than the full decimal
+representation, leading zeros may be used to pad the suffix
+to length \(k\). Such padding introduces no forbidden digits.
+\end{remark}
+
+\section{Admissible Residue Classes}
+
+The periodicity theorem allows the suffix restriction to be
+studied through a finite set of exponent residue classes.
+
+\begin{definition}
+For \(k\geq1\), let \(S_k\) be the set of residue classes
+modulo \(P_k=4\cdot5^{k-1}\) whose representatives \(n\geq k\)
+have last \(k\) decimal digits containing no digit from
+\(\forbidden\). The periodicity theorem ensures that this
+property is independent of the choice of representative,
+provided the representative is at least \(k\).
+\end{definition}
+
+Write
 \[
-2^n\bmod 10^k.
+s_k=\lvert S_k\rvert.
 \]
-Thus, for each fixed suffix length \(k\), one can classify exponents
-according to the residue of \(2^n\) modulo \(10^k\), and retain only
-those suffixes whose digits avoid \(\forbidden\).
-
-Define
+There are \(P_k\) residue classes in total, so
 \[
-A_k=\left\{n\geq k:
-\text{the last \(k\) decimal digits of \(2^n\)
-avoid \(\forbidden\)}\right\}.
+0\leq s_k\leq P_k.
 \]
-The sets \(A_k\) give necessary conditions for the original
-conjecture: any exponent satisfying \(P(n)\) belongs to \(A_k\)
-whenever \(k\leq n\).
 
-\section{A Proposed Residue-Class Counting Theorem}
+Any exponent satisfying the original digit-avoidance property
+must belong to an admissible suffix class for every suffix length
+\(k\leq n\). However, admissibility for a fixed suffix length
+does not establish that the entire decimal expansion is admissible.
 
-A computational investigation suggested the following pattern:
-the number of admissible residue classes for suffixes of length \(k\)
-may grow substantially more slowly than the total number of exponent
-classes.
+The sequence of class counts \(s_k\) provides a way to investigate
+how restrictive the suffix conditions become as \(k\) increases.
 
-A proposed formula, reported in a preliminary analysis, is
+\section{A Conjectured Residue-Class Counting Pattern}
+
+Computational experiments using \texttt{trailing\_classes.py}
+are designed to count the admissible classes as \(k\) increases.
+A pattern suggested by the preliminary analysis is
 \[
-\#S_k=4\cdot3^{k-2}\qquad(k\geq2),
+s_1=1,\qquad
+s_k=4\cdot3^{k-2}\quad(k\geq2).
 \]
-where \(S_k\) is intended to denote the set of exponent residue classes
-modulo the relevant suffix period for which the final \(k\) digits
-avoid \(\forbidden\).
 
-\medskip
-\noindent\textbf{Status.}
-This formula is recorded here as a conjectural counting statement,
-not as a theorem. Its validity depends on a precise definition of
-the exponent period, a proof that the suffix classification is
-complete, and a rigorous derivation of the claimed recurrence.
-Those steps have not yet been established in this note.
+This formula is recorded as a conjecture about the class counts,
+not as a theorem. A complete proof would require a rigorous
+description of how admissible classes at level \(k\) lift to
+classes at level \(k+1\).
 
-In particular, a lifting argument from suffix length \(k\) to
-\(k+1\) must account for the parity of the new digit. A claim that
-every admissible class has exactly three admissible lifts cannot be
-assumed merely from the fact that five possible lifts occur: the
-number of allowed digits depends on whether the new digit is odd
-or even.
+In particular, the fact that each class has five possible
+extensions does not by itself imply that exactly three extensions
+remain admissible. The new decimal digit depends on the extension,
+and the number of allowed digits depends on whether the digit
+is odd or even. Any proposed recurrence must account for this
+structure.
 
-\section{Computational Evidence}
+The script provides a finite computational test of the proposed
+pattern for the values of \(k\) it examines. Its output should be
+reported alongside the precise run parameters when presenting
+numerical evidence. Such evidence does not substitute for a proof
+of the formula for all \(k\).
 
-Finite computation can search for counterexamples to the uniqueness
-conjecture. It cannot, by itself, prove that no counterexample exists
-at a larger exponent.
+Even if the proposed formula were established, it would describe
+admissible suffix classes rather than directly count powers of two
+whose entire decimal expansions avoid the forbidden digits.
+The distinction is essential: a number can pass a suffix test
+and still contain a forbidden digit farther to the left.
 
-The following Python program checks every exponent in a specified
-finite range using exact integer arithmetic:
+\section{Computational Methods}
 
+Two complementary Python scripts accompany this investigation.
+The source files are available in the repository:
+
+\begin{itemize}
+    \item \href{https://github.com/IronMan1405/mathematical_proofs/blob/main/scripts/pow2_digits.py}
+    {\texttt{pow2\_digits.py}: exact search and suffix sieve}.
+    \item \href{https://github.com/IronMan1405/mathematical_proofs/blob/main/scripts/trailing_classes.py}
+    {\texttt{trailing\_classes.py}: residue-class enumeration}.
+\end{itemize}
+
+\subsection{Exact search with suffix filtering}
+
+The script \texttt{pow2\_digits.py} implements two methods.
+
+\begin{enumerate}
+    \item \textbf{Direct search.} For each exponent in a specified
+    finite interval, the program constructs \(2^n\) exactly and
+    checks its full decimal representation.
+
+    \item \textbf{Suffix sieve followed by exact verification.}
+    The program tracks \(2^n\bmod 10^K\) incrementally. If the
+    resulting \(K\)-digit suffix contains a forbidden digit, the
+    exponent is rejected. Every candidate that passes the suffix
+    test is then checked against the full integer \(2^n\).
+\end{enumerate}
+
+The sieve is logically exact. If a forbidden digit occurs among
+the last \(K\) digits, the full decimal representation cannot
+satisfy the conjectured property. Passing the sieve, however,
+is only a necessary condition, so the full check remains essential.
+
+The program compares the direct and sieved methods on a common
+range and asserts that their reported solutions agree there.
+This cross-check helps detect implementation errors, although
+it does not prove anything about exponents outside the searched
+range.
+
+\subsection{Residue-class enumeration}
+
+The script \texttt{trailing\_classes.py} enumerates exponent
+residue classes modulo \(P_k\) and retains classes whose last
+\(k\) digits avoid the forbidden set. It extends the classification
+from one suffix length to the next by examining the possible
+extensions of each surviving class.
+
+This computation investigates the structure of the suffix
+restriction rather than checking only individual powers. The
+number of surviving classes at each level can be compared with
+the proposed counting pattern in the preceding section.
+
+Both scripts are finite computations. Their conclusions must
+be limited to the exponent ranges and suffix lengths actually
+examined.
+
+\subsection{Reproducibility}
+
+The scripts can be run with Python 3 using commands of the form
 \begin{verbatim}
-FORBIDDEN = set("1248")
-
-def avoids_forbidden_digits(n):
-    return all(digit not in FORBIDDEN for digit in str(2**n))
-
-limit = 100_000
-
-solutions = [
-    (n, 2**n)
-    for n in range(limit + 1)
-    if avoids_forbidden_digits(n)
-]
-
-for exponent, value in solutions:
-    print(exponent, value)
+python pow2_digits.py 20000 2000000
+python trailing_classes.py 13
 \end{verbatim}
 
-This computation is finite and reproducible. It tests every exponent
-from \(0\) through \(100{,}000\), inclusive. A report of a search to
-a larger bound should be accompanied by the actual code, execution
-environment, and output before being treated as independently
-verified evidence.
+The first command sets the direct-search limit to \(20{,}000\)
+and the sieved-search limit to \(2{,}000{,}000\). The second
+requests residue-class counts through suffix length \(13\).
+These are example commands, not a claim that a particular
+execution has been performed or independently verified here.
+
+For a reproducible report, the repository should preserve the
+script versions, the exact command-line arguments, the Python
+version, and the resulting output. Any numerical claims in the
+paper should match that recorded output.
 
 \begin{remark}
-A finite search can establish the statement
+A finite search can establish
 \[
 P(n)\implies n=16
-\quad\text{for }0\leq n\leq N
+\qquad\text{for }0\leq n\leq N
 \]
-for its tested bound \(N\). It does not establish the corresponding
-statement for all \(n\geq0\).
+for a specified bound \(N\), provided every exponent in that
+range is checked correctly. It cannot establish the same
+statement for all nonnegative integers \(n\).
 \end{remark}
 
 \section{Further Questions}
 
-The preceding elementary restrictions leave infinitely many candidate
-exponents. A complete proof of the uniqueness conjecture would need
-an argument that controls all decimal digit positions, rather than
-only a fixed number of final digits.
+The elementary restrictions leave infinitely many candidate
+exponents. A proof of uniqueness would need to control the
+decimal digits across arbitrarily many positions or introduce
+another argument that excludes every exponent other than \(16\).
 
 The modular approach suggests several questions:
 
 \begin{enumerate}
-    \item Can the admissible suffix classes be described by an exact
-    recurrence as the suffix length increases?
-    \item Can the number of admissible classes be bounded sharply
-    enough to yield useful information about the exponents \(n\)?
-    \item Can any such counting argument establish uniqueness, or
-    does it only show that admissible exponents are sparse?
-    \item Is there a connection with established results on the
-    distribution of digits in sequences such as \(2^n\)?
+    \item Can the admissible suffix classes be described by an
+    exact recurrence as the suffix length increases?
+
+    \item Is the observed formula
+    \(s_k=4\cdot3^{k-2}\) valid for every \(k\geq2\), and if so,
+    can it be proved?
+
+    \item Can bounds on the number of admissible suffix classes
+    yield meaningful restrictions on full powers of two?
+
+    \item Can any such counting argument establish uniqueness,
+    or would it only show that admissible exponents are sparse?
+
+    \item Is there a useful connection with established results
+    on the distribution of digits in sequences such as \(2^n\)?
 \end{enumerate}
 
 A density estimate, even if proved, would not alone establish
-uniqueness. A set can have density zero and still contain infinitely
-many elements. The central challenge remains to exclude every
-exponent other than \(16\).
+uniqueness. A set can have density zero and still contain
+infinitely many elements. The central challenge remains to
+exclude every exponent other than \(16\).
 
 \section{Conclusion}
 
@@ -368,14 +493,31 @@ The identity
 \[
 2^{16}=65536
 \]
-provides a simple example of an unusual decimal digit pattern.
-Elementary modular arguments show that any positive solution must
-have exponent divisible by four, and a two-digit analysis eliminates
-one quarter of the resulting exponent classes modulo twenty.
+provides an example of a power of two whose decimal expansion
+avoids the digits \(1,2,4,8\).
 
-These observations do not prove the uniqueness conjecture. The
-residue-class counting approach is a possible direction for further
-work, but its proposed recurrence and asymptotic consequences require
-a complete proof before they can be stated as established results.
+Elementary modular arguments show that any positive solution
+must have exponent divisible by four. An analysis of the final
+two digits further restricts the exponent to the residue classes
+\[
+n\equiv0,8,12,\text{ or }16\pmod{20}.
+\]
+
+The periodicity theorem provides a rigorous foundation for
+studying longer decimal suffixes through finite residue-class
+enumerations. The accompanying scripts offer reproducible
+methods for exploring both individual powers and suffix-class
+counts.
+
+Nevertheless, neither finite computation nor the observed
+counting pattern establishes uniqueness over all exponents.
+The central conjecture remains open:
+
+\[
+\boxed{
+\text{\(65536\) is the unique nonnegative power of two
+avoiding the decimal digits \(1,2,4,8\).}
+}
+\]
 
 \end{document}
