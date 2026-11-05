@@ -1,0 +1,465 @@
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{microtype}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\title{On the Identity Between the Sum of Cubes and the Square of the Sum}
+\author{Dakshesh Nankani}
+\date{November 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{Proposition}
+
+For every positive integer $n$,
+\[
+\sum_{k=1}^{n} k^3
+=
+\left(\sum_{k=1}^{n} k\right)^2.
+\]
+
+Equivalently,
+\[
+\sum_{k=1}^{n} k^3
+=
+\frac{n^2(n+1)^2}{4}.
+\]
+
+We establish this identity through two independent approaches:
+generating functions, and symmetric polynomials using Newton's
+identities.
+
+\section*{Proof I. Generating Functions}
+
+Let
+\[
+G(x)=\sum_{k=1}^{\infty}k^3x^k
+\]
+denote the ordinary generating function of the cubes.
+
+As derived in \hyperref[appendix:generating-functions]{Appendix A},
+\[
+G(x)=\frac{x(1+4x+x^2)}{(1-x)^4}.
+\]
+
+Now let
+\[
+S_n=\sum_{k=1}^{n}k^3
+\]
+and consider the ordinary generating function of these partial sums:
+\[
+F(x)=\sum_{n=1}^{\infty}S_nx^n.
+\]
+
+By the definition of $S_n$,
+\[
+F(x)=
+\sum_{n=1}^{\infty}
+\left(\sum_{k=1}^{n}k^3\right)x^n.
+\]
+
+Interchanging the order of summation,
+\[
+\begin{aligned}
+F(x)
+&=\sum_{k=1}^{\infty}k^3
+\sum_{n=k}^{\infty}x^n\\
+&=\sum_{k=1}^{\infty}k^3
+\frac{x^k}{1-x}\\
+&=\frac{1}{1-x}
+\sum_{k=1}^{\infty}k^3x^k.
+\end{aligned}
+\]
+
+Recognising the inner summation as $G(x)$, we obtain
+\[
+F(x)=\frac{G(x)}{1-x}.
+\]
+
+Consequently,
+\[
+F(x)=\frac{x(1+4x+x^2)}{(1-x)^5}.
+\]
+
+Using the binomial-series expansion,
+\[
+\frac{1}{(1-x)^5}
+=
+\sum_{r=0}^{\infty}\binom{r+4}{4}x^r,
+\]
+we obtain
+\[
+F(x)=
+x(1+4x+x^2)
+\sum_{r=0}^{\infty}\binom{r+4}{4}x^r.
+\]
+
+Comparing coefficients of $x^n$,
+\[
+S_n=
+\binom{n+3}{4}
++4\binom{n+2}{4}
++\binom{n+1}{4},
+\]
+where $\binom{m}{4}=0$ for non-negative integers $m<4$.
+
+As shown in \hyperref[appendix:binomial-simplification]{Appendix B}, this expression simplifies to
+\[
+S_n=\frac{n^2(n+1)^2}{4}.
+\]
+
+Therefore,
+\[
+\boxed{
+\sum_{k=1}^{n}k^3
+=
+\left(\sum_{k=1}^{n}k\right)^2
+}.
+\]
+
+% \hfill $\square$
+
+\section*{Proof II. Symmetric Polynomials and Newton's Identities}
+
+Let $x_1,x_2,\ldots,x_n$ be indeterminates. Define the
+elementary symmetric polynomials by
+\[
+e_r=
+\sum_{1\leq i_1<\cdots<i_r\leq n}
+x_{i_1}x_{i_2}\cdots x_{i_r},
+\]
+and the power sum symmetric polynomials by
+\[
+p_r=\sum_{i=1}^{n}x_i^r.
+\]
+
+The first three Newton identities are
+\[
+p_1=e_1,
+\]
+\[
+p_2=e_1p_1-2e_2,
+\]
+\[
+p_3=e_1p_2-e_2p_1+3e_3.
+\]
+
+Consequently,
+\[
+p_2=e_1^2-2e_2
+\]
+and
+\[
+\boxed{p_3=e_1^3-3e_1e_2+3e_3}.
+\]
+
+We now specialise to $x_k=k$, for $1\leq k\leq n$.
+
+The first elementary symmetric polynomial is
+\[
+e_1=\sum_{k=1}^{n}k
+=\frac{n(n+1)}{2}.
+\]
+
+The second and third elementary symmetric polynomials,
+as derived independently in \hyperref[appendix:symmetric-polynomials]{Appendix C}, are
+\[
+e_2=
+\frac{n(n+1)(n-1)(3n+2)}{24}
+\]
+and
+\[
+e_3=
+\frac{n^2(n-1)(n-2)(n+1)^2}{48}.
+\]
+
+Substituting these expressions into
+\[
+p_3=e_1^3-3e_1e_2+3e_3,
+\]
+we obtain
+\[
+\begin{aligned}
+p_3
+={}&\frac{n^3(n+1)^3}{8}\\
+&-\frac{n^2(n+1)^2(n-1)(3n+2)}{16}\\
+&+\frac{n^2(n-1)(n-2)(n+1)^2}{16}.
+\end{aligned}
+\]
+
+Factoring and simplifying,
+\[
+\begin{aligned}
+p_3
+&=\frac{n^2(n+1)^2}{16}
+\left[
+2n(n+1)
+-(n-1)(3n+2)
++(n-1)(n-2)
+\right]\\
+&=\frac{n^2(n+1)^2}{16}\cdot 4\\
+&=\frac{n^2(n+1)^2}{4}.
+\end{aligned}
+\]
+
+Since $p_3=\sum_{k=1}^{n}k^3$, it follows that
+\[
+\boxed{
+\sum_{k=1}^{n}k^3
+=
+\left(\sum_{k=1}^{n}k\right)^2
+}.
+\]
+
+% \hfill $\square$
+
+\appendix
+
+\section{Derivation of the Generating Function for Cubes}
+\label{appendix:generating-functions}
+
+Consider the geometric series
+\[
+\sum_{k=0}^{\infty}x^k=\frac{1}{1-x}.
+\]
+
+Define the differential operator
+\[
+D=x\frac{d}{dx}.
+\]
+
+Since
+\[
+D(x^k)=kx^k,
+\]
+repeated application of $D$ gives
+\[
+D^3\left(\sum_{k=0}^{\infty}x^k\right)
+=
+\sum_{k=1}^{\infty}k^3x^k.
+\]
+
+We evaluate the right-hand side successively:
+\[
+D\left(\frac{1}{1-x}\right)
+=
+\frac{x}{(1-x)^2},
+\]
+\[
+D^2\left(\frac{1}{1-x}\right)
+=
+\frac{x(1+x)}{(1-x)^3},
+\]
+and
+\[
+D^3\left(\frac{1}{1-x}\right)
+=
+\frac{x(1+4x+x^2)}{(1-x)^4}.
+\]
+
+Therefore, the ordinary generating function for the cubes is
+\[
+\boxed{
+G(x)=\sum_{k=1}^{\infty}k^3x^k
+=\frac{x(1+4x+x^2)}{(1-x)^4}
+}.
+\]
+
+\section{Simplification of the Binomial-Coefficient Expression}
+\label{appendix:binomial-simplification}
+
+From Proof I, we obtained
+\[
+S_n=
+\binom{n+3}{4}
++4\binom{n+2}{4}
++\binom{n+1}{4}.
+\]
+
+Using the factorial definition of binomial coefficients,
+\[
+\begin{aligned}
+S_n
+={}&\frac{(n+3)(n+2)(n+1)n}{24}\\
+&+\frac{4(n+2)(n+1)n(n-1)}{24}\\
+&+\frac{(n+1)n(n-1)(n-2)}{24}.
+\end{aligned}
+\]
+
+Factoring out the common terms,
+\[
+\begin{aligned}
+S_n
+=\frac{n(n+1)}{24}\big[
+&(n+3)(n+2)\\
+&+4(n+2)(n-1)\\
+&+(n-1)(n-2)
+\big].
+\end{aligned}
+\]
+
+Expanding the expression inside the brackets,
+\[
+\begin{aligned}
+S_n
+&=\frac{n(n+1)}{24}
+\left[
+n^2+5n+6
++4n^2+4n-8
++n^2-3n+2
+\right]\\
+&=\frac{n(n+1)}{24}(6n^2+6n)\\
+&=\frac{n^2(n+1)^2}{4}.
+\end{aligned}
+\]
+
+Hence,
+\[
+\boxed{
+S_n=\frac{n^2(n+1)^2}{4}
+}.
+\]
+
+\section{Evaluation of the Second and Third Elementary Symmetric Polynomials}
+\label{appendix:symmetric-polynomials}
+
+Let
+\[
+P_n(t)=\prod_{k=1}^{n}(1+kt)
+=\sum_{r=0}^{n}e_r(n)t^r,
+\]
+where $e_r(n)$ denotes the $r$-th elementary symmetric
+polynomial evaluated at $1,2,\ldots,n$.
+
+Observe that
+\[
+P_n(t)=(1+nt)P_{n-1}(t).
+\]
+
+Comparing coefficients of $t^r$ gives the recurrence
+\[
+e_r(n)=e_r(n-1)+ne_{r-1}(n-1).
+\]
+
+\subsection*{Evaluation of $e_2$}
+
+For $r=1$, the recurrence gives
+\[
+e_1(n)=e_1(n-1)+n.
+\]
+
+Since
+\[
+e_1(n)=\frac{n(n+1)}{2},
+\]
+the recurrence for $e_2$ becomes
+\[
+\begin{aligned}
+e_2(n)
+&=e_2(n-1)+ne_1(n-1)\\
+&=e_2(n-1)+\frac{n^2(n-1)}{2}.
+\end{aligned}
+\]
+
+We claim that
+\[
+e_2(n)=
+\frac{n(n+1)(n-1)(3n+2)}{24}.
+\]
+
+To verify this expression, let
+\[
+E_2(n)=\frac{n(n+1)(n-1)(3n+2)}{24}.
+\]
+
+For $n\geq 2$,
+\[
+\begin{aligned}
+E_2(n)-E_2(n-1)
+&=\frac{n(n-1)}{24}
+\left[
+(n+1)(3n+2)-(n-2)(3n-1)
+\right]\\
+&=\frac{n^2(n-1)}{2}\\
+&=ne_1(n-1).
+\end{aligned}
+\]
+
+Furthermore, $E_2(1)=0=e_2(1)$. Hence, by the recurrence,
+\[
+\boxed{
+e_2(n)=
+\frac{n(n+1)(n-1)(3n+2)}{24}
+}.
+\]
+
+\subsection*{Evaluation of $e_3$}
+
+For $r=3$, the recurrence gives
+\[
+e_3(n)=e_3(n-1)+ne_2(n-1).
+\]
+
+Using the expression for $e_2(n-1)$,
+\[
+e_2(n-1)
+=
+\frac{n(n-1)(n-2)(3n-1)}{24},
+\]
+we obtain
+\[
+e_3(n)=e_3(n-1)
++\frac{n^2(n-1)(n-2)(3n-1)}{24}.
+\]
+
+Since $e_3(2)=0$, we claim that
+\[
+e_3(n)=
+\frac{n^2(n-1)(n-2)(n+1)^2}{48}.
+\]
+
+Let
+\[
+E_3(n)=
+\frac{n^2(n-1)(n-2)(n+1)^2}{48}.
+\]
+
+We verify this expression using the recurrence. For $n\geq 3$,
+\[
+\begin{aligned}
+E_3(n)-E_3(n-1)
+&=\frac{n^2(n-2)}{48}
+\left[
+(n-1)(n+1)^2-(n-1)^2(n-3)
+\right]\\
+&=\frac{n^2(n-1)(n-2)}{48}
+\left[
+(n+1)^2-(n-1)(n-3)
+\right]\\
+&=\frac{n^2(n-1)(n-2)(3n-1)}{24}\\
+&=ne_2(n-1).
+\end{aligned}
+\]
+
+Furthermore, $E_3(2)=0=e_3(2)$. Hence, by the recurrence,
+\[
+\boxed{
+e_3(n)=
+\frac{n^2(n-1)(n-2)(n+1)^2}{48}
+}.
+\]
+
+\end{document}
